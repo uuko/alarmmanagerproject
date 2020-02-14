@@ -86,7 +86,37 @@ public class HomeActivity extends AppCompatActivity implements  HomeContract.Vie
 
     @Override
     public void onSearchClick() {
+        final String input = activityHomeBinding.editText.getText().toString();
+        Log.d("777", "onClick: " + input);
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                todos.clear();
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    String title = (String) singleSnapshot.child("title").getValue();
+                    Log.d("777", "input: "+input);
+                    Log.d("777", "title: "+title);
+                    if (title.equals(input)) {
+                      Todo  p = singleSnapshot.getValue(Todo.class);
+                        if (p.getTitle().equals(input)) {
+                            todos.add(p);
+                        }
+                        Log.d("777", "onD: " + todos.get(0).getTitle());
+                    }
+                    Log.d("777", "onDataChange: " + title);
+                    //do your logic
+                }
+                homeAdapter = new HomeAdapter(todos);
+                activityHomeBinding.recyclerview.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
+                activityHomeBinding.recyclerview.setAdapter(homeAdapter);
+                homeAdapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
