@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "97762085432",
+    "firebase_url": "https://toodolist-e82c2.firebaseio.com",
+    "project_id": "toodolist-e82c2",
+    "storage_bucket": "toodolist-e82c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97762085432:android:a94e3aa1cc0f81fe6ff4cd",
+        "android_client_info": {
+          "package_name": "com.example.alarmmanagerproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "97762085432-ghheispmho0m15l2r2u5otuo5n3lg54l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.alarmmanagerproject",
+            "certificate_hash": "28a7ac69cc822ec6881cc74fa74fb9bbe7a7ff28"
+          }
+        },
+        {
+          "client_id": "97762085432-lmv1gldsdic1tfbbahqu9n8pum1n13m6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC12b6D1NHhLi1oWxK03rQbSZLQNAsUAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "97762085432-lmv1gldsdic1tfbbahqu9n8pum1n13m6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
