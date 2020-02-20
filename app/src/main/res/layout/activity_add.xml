@@ -109,7 +109,11 @@
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/item"
                 android:gravity="center">
-
+                <Button
+                    android:id="@+id/test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="是否設置定時提醒"/>
                 <CheckBox
                     android:id="@+id/setTimercheck"
                     android:layout_width="0dp"

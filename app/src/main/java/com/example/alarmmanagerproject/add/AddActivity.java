@@ -15,6 +15,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class AddActivity extends AppCompatActivity implements AddConstract.View,
     private DatabaseReference databaseReference;
     private Integer mPriority;
     private Calendar store;
+    private boolean status=false;
     int year_x,month_x,day,hour_x,minute_x,second_x;
     private String key;
     ActivityAddBinding activityAddBinding;
@@ -50,6 +52,20 @@ public class AddActivity extends AppCompatActivity implements AddConstract.View,
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_add);
         init();
+        activityAddBinding.test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (status){
+                    activityAddBinding.test.setText("否");
+                    Toast.makeText(AddActivity.this, "333", Toast.LENGTH_SHORT).show();
+                    status=false;
+                }else {
+                    activityAddBinding.test.setText("是");
+                    status=true;
+                    Toast.makeText(AddActivity.this, "233", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 
@@ -72,16 +88,26 @@ public class AddActivity extends AppCompatActivity implements AddConstract.View,
 
     @Override
     public void onSubmit() {
-        if (activityAddBinding.setTimercheck.isChecked()) {
-            Log.d("test", "onSubmit: " + TextUtils.isEmpty(activityAddBinding.timePicker.getText()));
+
+        if (status){
             if (!TextUtils.isEmpty(activityAddBinding.timePicker.getText())) {
                 store=Calendar.getInstance();
                 store.set(year_x,month_x,day,hour_x,minute_x,second_x);
                 startAlarm(store);
             }
-        } else {
+        }else {
             cancelAlarm();
         }
+//        if (activityAddBinding.setTimercheck.isChecked()) {
+//            Log.d("test", "onSubmit: " + TextUtils.isEmpty(activityAddBinding.timePicker.getText()));
+//            if (!TextUtils.isEmpty(activityAddBinding.timePicker.getText())) {
+//                store=Calendar.getInstance();
+//                store.set(year_x,month_x,day,hour_x,minute_x,second_x);
+//                startAlarm(store);
+//            }
+//        } else {
+//            cancelAlarm();
+//        }
         setDatabaseReference();
     }
 
