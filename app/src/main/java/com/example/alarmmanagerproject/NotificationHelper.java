@@ -3,16 +3,21 @@ package com.example.alarmmanagerproject;
 import android.annotation.TargetApi;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+
+import com.example.alarmmanagerproject.home.HomeActivity;
 
 public class NotificationHelper extends ContextWrapper {
     public static final String channelID = "channelID";
     public static final String channelName = "Channel Name";
-
+    private  NotificationCompat.Builder mBuilder;
     private NotificationManager mManager;
 
     public NotificationHelper(Context base) {
@@ -38,9 +43,11 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     public NotificationCompat.Builder getChannelNotification() {
-        return new NotificationCompat.Builder(getApplicationContext(), channelID)
+        return  mBuilder = new NotificationCompat.Builder(getApplicationContext(), channelID)
                 .setContentTitle("Alarm!")
                 .setContentText("Your AlarmManager is working.")
-                .setSmallIcon(R.drawable.ic_launcher_background);
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setOngoing(true);
     }
+
 }

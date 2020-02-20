@@ -7,29 +7,39 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ViewDataBinding;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.alarmmanagerproject.ItemTouchHelperAdapter;
+import com.example.alarmmanagerproject.MainActivity;
 import com.example.alarmmanagerproject.R;
+import com.example.alarmmanagerproject.SimpleItemTouchHelperCallback;
 import com.example.alarmmanagerproject.databinding.HomeItemBinding;
 import com.example.alarmmanagerproject.edit.EditActivity;
 import com.example.alarmmanagerproject.model.Todo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder<HomeItemBinding>> {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder<HomeItemBinding>> implements ItemTouchHelperAdapter {
     private Todo todoItem;
     private HomeItemBinding homeItemBinding;
     private ArrayList<Todo> todoList;
     private String key;
     private Context c;
+    private HomeContract.View view;
 
-    public HomeAdapter(ArrayList<Todo> todoList) {
+    public HomeAdapter(ArrayList<Todo> todoList,HomeContract.View view) {
         this.todoList = todoList;
+        this.view=view;
     }
-
     @NonNull
     @Override
     public ViewHolder<HomeItemBinding> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,6 +53,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder<Hom
     @Override
     public void onBindViewHolder(@NonNull ViewHolder<HomeItemBinding> holder, int position) {
         Log.d("test", "onCreateViewHolder: " + todoList.get(0).getTitle());
+
         todoItem = todoList.get(position);
         final String getTitle = todoList.get(position).getTitle();
         final Integer getPiority = todoList.get(position).getPriority();
@@ -84,6 +95,22 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder<Hom
     public int getItemCount() {
         return todoList == null ? 0 : todoList.size();
     }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(todoList,fromPosition,toPosition);
+        notifyItemMoved(fromPosition,toPosition);
+    }
+
+    @Override
+    public void onItemDissmiss(int position) {
+        todoList.remove(position);
+        notifyItemRemoved(position);
+        view.onDelClick(key);
+    }
+
+
+
 
     public class ViewHolder<B extends ViewDataBinding> extends RecyclerView.ViewHolder {
 

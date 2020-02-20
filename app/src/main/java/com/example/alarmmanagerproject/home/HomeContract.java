@@ -4,6 +4,6 @@ public interface HomeContract {
     interface View  {
         void onAddClick();
         void onSearchClick();
+        void onDelClick(String key);
     }
-
 }

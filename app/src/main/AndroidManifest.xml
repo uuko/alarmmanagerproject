@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".AlertReceiver" />
+        <receiver android:name=".AlertReceiver" >
+        </receiver>
     </application>
 
 </manifest>

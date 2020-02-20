@@ -11,6 +11,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.example.alarmmanagerproject.AlertReceiver;
 import com.example.alarmmanagerproject.MainActivity;
 import com.example.alarmmanagerproject.R;
 import com.example.alarmmanagerproject.SharedPreUtils;
+import com.example.alarmmanagerproject.Time.DatePickerFragment;
 import com.example.alarmmanagerproject.Time.TimePickerFragment;
 import com.example.alarmmanagerproject.databinding.ActivityAddBinding;
 import com.example.alarmmanagerproject.home.HomeActivity;
@@ -39,6 +41,7 @@ public class AddActivity extends AppCompatActivity implements AddConstract.View,
     private DatabaseReference databaseReference;
     private Integer mPriority;
     private Calendar store;
+    int year_x,month_x,day,hour_x,minute_x,second_x;
     private String key;
     ActivityAddBinding activityAddBinding;
 
@@ -63,20 +66,8 @@ public class AddActivity extends AppCompatActivity implements AddConstract.View,
 
     @Override
     public void onDateClick() {
-        final Calendar cm = Calendar.getInstance();
-        int mYear = cm.get(Calendar.YEAR);
-        int mMonth = cm.get(Calendar.MONTH);
-        int mDay = cm.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
-                        activityAddBinding.datePicker.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-
-                    }
-                }, mYear, mMonth, mDay);
-        datePickerDialog.show();
+       DatePickerFragment datePickerDialog=new DatePickerFragment();
+       datePickerDialog.show(getSupportFragmentManager(),"date");
     }
 
     @Override
@@ -84,6 +75,8 @@ public class AddActivity extends AppCompatActivity implements AddConstract.View,
         if (activityAddBinding.setTimercheck.isChecked()) {
             Log.d("test", "onSubmit: " + TextUtils.isEmpty(activityAddBinding.timePicker.getText()));
             if (!TextUtils.isEmpty(activityAddBinding.timePicker.getText())) {
+                store=Calendar.getInstance();
+                store.set(year_x,month_x,day,hour_x,minute_x,second_x);
                 startAlarm(store);
             }
         } else {
@@ -132,15 +125,29 @@ public class AddActivity extends AppCompatActivity implements AddConstract.View,
         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
         c.set(Calendar.MINUTE, minute);
         c.set(Calendar.SECOND, 0);
-        store = Calendar.getInstance();
-        store = c;
+
+        hour_x=hourOfDay;
+        minute_x=minute;
+        second_x=0;
+//        store = Calendar.getInstance();
+//        store = c;
         updateTimeText(c);
 
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
+        Calendar f = Calendar.getInstance();
+        year_x=year;
+        month_x=month;
+        day=dayOfMonth;
+        f.set(Calendar.YEAR, year);
+        f.set(Calendar.MONTH, month);
+        f.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//        store = Calendar.getInstance();
+//        store = f;
+        String ff=DateFormat.getDateInstance(DateFormat.FULL).format(f.getTime());
+        activityAddBinding.datePicker.setText(ff);
     }
     private void updateTimeText(Calendar c) {
         String timeText = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
@@ -158,7 +165,12 @@ public class AddActivity extends AppCompatActivity implements AddConstract.View,
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1);
         }
-
+//        IntentFilter intentFilter = new IntentFilter();
+//        //創建一個IntentFilte物件
+//
+//        intentFilter.addAction("Hello");
+        //加入Action的辨識字串
+//        registerReceiver(new AlertReceiver(),intentFilter);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
         Toast.makeText(this, "您已設置定時提醒", Toast.LENGTH_SHORT).show();
     }
