@@ -40,18 +40,10 @@ public class HomeActivity extends AppCompatActivity implements  HomeContract.Vie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        //先实例化Callback
 
         mDatabase = FirebaseDatabase.getInstance().getReference()
-                .child("DoesApp");
-        /*
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        Integer doesNum = new Random().nextInt(); //id
-        String keydoes = Integer.toString(doesNum);
-        Todo user = new Todo("111", "111","111","111","111",0);
-        Todo user1 = new Todo("222", "222","222","222","222",0);
-        mDatabase.child("DoesApp"+keydoes).setValue(user);
-        mDatabase.child("DoesApp"+keydoes).setValue(user1);*/
+                .child("Todo");
+
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -140,7 +132,7 @@ public class HomeActivity extends AppCompatActivity implements  HomeContract.Vie
 
     @Override
     public void onDelClick(String key) {
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("DoesApp").child("Todo" + key);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Todo").child("Todo" + key);
         Log.d("666", "onClick: "+mDatabase);
         mDatabase.getRef().removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

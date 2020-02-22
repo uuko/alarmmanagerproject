@@ -97,7 +97,7 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
 
         key = getIntent().getStringExtra("key");
         databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("DoesApp").child("Todo" + key);
+                .child("Todo").child("Todo" + key);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

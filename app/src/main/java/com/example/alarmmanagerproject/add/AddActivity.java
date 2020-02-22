@@ -115,7 +115,7 @@ public class AddActivity extends AppCompatActivity implements AddConstract.View,
         Integer todoNum = new Random().nextInt();
         key = Integer.toString(todoNum);
         databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("DoesApp").child("Todo" + todoNum);
+                .child("Todo").child("Todo" + todoNum);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
