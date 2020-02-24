@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class SharedPreUtils {
+
     private static final String PREFERENCES = "live";
     private static SharedPreferences preferencesSharedPreferences;
     private static SharedPreferences getPreferences(Context context) {
