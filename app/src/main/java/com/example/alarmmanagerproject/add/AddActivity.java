@@ -45,6 +45,7 @@ public class AddActivity extends AppCompatActivity implements AddConstract.View,
     private boolean status=false;
     int year_x,month_x,day,hour_x,minute_x,second_x;
     private String key;
+    private  int alarmId;
     ActivityAddBinding activityAddBinding;
 
     @Override
@@ -183,13 +184,14 @@ public class AddActivity extends AppCompatActivity implements AddConstract.View,
     private void startAlarm(Calendar c) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiver.class);
-        int alarmId = SharedPreUtils.getInt(this, "alarm_id", 0);
+        alarmId = SharedPreUtils.getInt(this, "alarm_id", 0);
         SharedPreUtils.setInt(this, "alarm_id", ++alarmId);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, alarmId, intent, 0);
 
         if (c.before(Calendar.getInstance())) {
-            c.add(Calendar.DATE, 1);
+            Toast.makeText(this, "你設置的時間是過去時間，不可能實現的QQ", Toast.LENGTH_SHORT).show();
+            cancelAlarm();
         }
 //        IntentFilter intentFilter = new IntentFilter();
 //        //創建一個IntentFilte物件
@@ -204,7 +206,7 @@ public class AddActivity extends AppCompatActivity implements AddConstract.View,
     private void cancelAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, alarmId, intent, 0);
 
         alarmManager.cancel(pendingIntent);
         Toast.makeText(this, "您尚未設置定時提醒", Toast.LENGTH_SHORT).show();
